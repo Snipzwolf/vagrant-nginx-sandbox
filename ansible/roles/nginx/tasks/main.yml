@@ -8,8 +8,6 @@
       state: "directory"
       mode: "u=rwX,g=rX,o=rX"
 
-  - git: repo="{{ nginx.docker_image.repo }}" dest="{{ nginx.docker_image.dest }}"
-
   - include_role:
       name: "system-user"
     vars:
@@ -17,11 +15,6 @@
       system_user__uid: "{{ nginx.user.id }}"
       system_user__group: "{{ nginx.group.name }}"
       system_user__gid:  "{{ nginx.group.id }}"
-
-  - docker_image:
-      path: "{{ nginx.docker_image.dest }}"
-      name: "{{ nginx.docker_image.name }}"
-      tag: "{{ nginx.docker_image.tag }}"
 
   - file:
       path: "{{ nginx.config.dest }}"
@@ -48,7 +41,6 @@
       - "404.html"
       - "500.html"
       - "index.html"
-
 
   - docker_container:
       name: "{{ nginx.docker_container.name }}"

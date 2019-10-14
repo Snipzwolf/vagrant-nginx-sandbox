@@ -8,8 +8,8 @@
       id: 500
       name: "nginx"
     docker_image:
-      name: "nginx"
-      tag: "local_build"
+      name: "snipzwolf/docker-openresty"
+      tag: "v1.13.6.1"
       repo: "https://github.com/Snipzwolf/docker-openresty"
       dest: "{{ docker_images_root }}/nginx/docker-openresty"
     docker_container:
