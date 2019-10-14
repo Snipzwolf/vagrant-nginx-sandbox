@@ -62,6 +62,7 @@
         GID:  "{{ nginx.group.id }}"
         GROUPNAME: "{{ nginx.user.name }}"
       published_ports:
+        - "80:80"
         - "8080:8080"
       volumes:
         - "{{ nginx.config.dest }}/nginx.conf:{{ nginx.config.container_path}}/nginx.conf:ro"

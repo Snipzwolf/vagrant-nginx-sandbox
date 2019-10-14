@@ -8,7 +8,7 @@ touch /etc/profile.d/editor.sh;
 echo "export EDITOR=nano" >> /etc/profile.d/editor.sh;
 
 apt-get update;
-apt-get install -qqy linux-headers-generic software-properties-common htop mtr tmux wget ca-certificates p7zip-full python3-pip git;
+apt-get install -qqy linux-headers-generic software-properties-common htop mtr tmux wget ca-certificates p7zip-full python3-pip git xorg;
 
 pip3 install -q -I ansible==2.8.1;
 pip3 install -q -I awscli boto boto3 botocore dnspython netaddr;
