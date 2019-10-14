@@ -1,0 +1,33 @@
+---
+  - name: install docker repo apt key deps
+    apt: update_cache="true" state="present" name="{{ item }}"
+    with_items:
+      - apt-transport-https
+      - ca-certificates
+
+  - shell: dpkg --print-architecture
+    register: docker_architecture
+
+  - fail: msg="unsupported architecture"
+    when: "docker_architecture.stdout not in 'amd64,i386,arm64'.split(',')"
+
+  - name: add docker repo apt key
+    apt_key: keyserver="{{ docker_key_server }}" id="{{ docker_key_id }}"
+
+  - name: add docker repo
+    template: src="templates/docker.list.j2" dest="/etc/apt/sources.list.d/docker.list"
+
+  #- name: add extra kernel modules
+  #  apt: update_cache="true" state="present" name="linux-image-extra-virtual"
+  #  shell: apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual
+
+  - apt: update_cache="true"
+
+  - name: get apparmor
+    apt: state="present" name="apparmor"
+
+  - name: install docker
+    apt: state="present" name="docker-ce"
+
+  - name: start and enable docker service
+    service: name="docker" enabled="true" state="started"

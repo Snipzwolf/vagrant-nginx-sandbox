@@ -1,0 +1,6 @@
+---
+  - name: install pip
+    apt: state="present" name="python-pip"
+
+  - name: install python-dev likely to be used in tools installed via pip
+    apt: state="present" name="python-dev"

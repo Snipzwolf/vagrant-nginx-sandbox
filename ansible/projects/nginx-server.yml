@@ -1,0 +1,6 @@
+- become: true
+  become_user: "root"
+  become_method: "sudo"
+  hosts: "nginx"
+  roles:
+    - "nginx"

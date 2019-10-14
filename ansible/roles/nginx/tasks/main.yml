@@ -1,0 +1,70 @@
+---
+  - file:
+      path: "{{ nginx.config.dest }}"
+      state: "directory"
+
+  - file:
+      path: "{{ nginx.web_root }}"
+      state: "directory"
+      mode: "u=rwX,g=rX,o=rX"
+
+  - git: repo="{{ nginx.docker_image.repo }}" dest="{{ nginx.docker_image.dest }}"
+
+  - include_role:
+      name: "system-user"
+    vars:
+      system_user__user: "{{ nginx.user.name }}"
+      system_user__uid: "{{ nginx.user.id }}"
+      system_user__group: "{{ nginx.group.name }}"
+      system_user__gid:  "{{ nginx.group.id }}"
+
+  - docker_image:
+      path: "{{ nginx.docker_image.dest }}"
+      name: "{{ nginx.docker_image.name }}"
+      tag: "{{ nginx.docker_image.tag }}"
+
+  - file:
+      path: "{{ nginx.config.dest }}"
+      mode: "u=rwX,g=rX,o=rX"
+      recurse: true
+      owner: "{{ nginx.user.name }}"
+      group: "{{ nginx.group.name }}"
+
+  - template:
+      src: "templates/nginx.conf.j2"
+      dest: "{{ nginx.config.dest }}/nginx.conf"
+      owner: "{{ nginx.user.name }}"
+      group: "{{ nginx.group.name }}"
+      mode: "0440"
+
+  - template:
+      src: "templates/site_nginx.conf.j2"
+      dest: "{{ nginx.web_root }}/nginx.conf"
+
+  - copy:
+      src: "files/{{ item }}"
+      dest: "{{ nginx.web_root }}/{{ item }}"
+    with_items:
+      - "404.html"
+      - "500.html"
+      - "index.html"
+
+
+  - docker_container:
+      name: "{{ nginx.docker_container.name }}"
+      image: "{{ nginx.docker_image.name }}:{{ nginx.docker_image.tag }}"
+      restart_policy: "unless-stopped"
+      log_driver: "{{ docker_logs.driver }}"
+      log_options: "{{ docker_logs.opts }}"
+      env:
+        UID: "{{ nginx.user.id }}"
+        USERNAME: "{{ nginx.user.name }}"
+        GID:  "{{ nginx.group.id }}"
+        GROUPNAME: "{{ nginx.user.name }}"
+      published_ports:
+        - "8080:8080"
+      volumes:
+        - "{{ nginx.config.dest }}/nginx.conf:{{ nginx.config.container_path}}/nginx.conf:ro"
+        - "{{ nginx.web_root }}:{{ nginx.web_root }}:ro"
+        - "/etc/localtime:/etc/localtime:ro"
+        - "/etc/timezone:/etc/timezone:ro"

@@ -1,0 +1,18 @@
+server {
+  listen 80 default_server;
+  server_name _;
+
+  root {{ nginx.web_root }};
+
+  location ~ /\.well-known {
+    allow all;
+  }
+
+  error_page 500 502 503 504  /500.html;
+  error_page 401 403 404 /404.html;
+
+  # ensure directory browsing is disabled
+  autoindex off;
+
+  location ~ /\. { deny  all; }
+}

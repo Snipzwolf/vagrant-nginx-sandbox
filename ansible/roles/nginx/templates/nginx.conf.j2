@@ -1,0 +1,38 @@
+user {{ nginx.user.name }};
+worker_processes auto;
+pid /run/nginx.pid;
+error_log /dev/stdout error;
+
+events {
+        worker_connections 768;
+}
+
+http {
+        ##
+        # Basic Settings
+        ##
+        index index.html index.htm;
+
+        sendfile on;
+        tcp_nopush on;
+        tcp_nodelay on;
+        keepalive_timeout 65;
+        types_hash_max_size 2048;
+
+        include {{ nginx.config.container_path }}mime.types;
+        default_type application/octet-stream;
+
+        ##
+        # Gzip Settings
+        ##
+
+        gzip on;
+        gzip_disable "msie6";
+	      gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+
+        ##
+        # Virtual Host Configs
+        ##
+
+      include {{ nginx.web_root }}/nginx.conf;
+}

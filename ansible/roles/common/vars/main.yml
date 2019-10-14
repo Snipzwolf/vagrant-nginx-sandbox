@@ -1,0 +1,6 @@
+---
+  docker_images_root: "/srv/docker"
+  docker_logs:
+    driver: "json-file"
+    opts:
+       max-size: "10m"

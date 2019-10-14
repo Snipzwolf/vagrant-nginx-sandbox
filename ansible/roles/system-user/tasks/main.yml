@@ -1,0 +1,17 @@
+---
+  - debug: var="system_user__group"
+
+  - debug: var="system_user__gid"
+
+  - group:
+      name: "{{ system_user__group }}"
+      system: "yes"
+      gid: "{{ system_user__gid }}"
+
+  - user:
+      name: "{{ system_user__user }}"
+      system: "yes"
+      uid: "{{ system_user__uid }}"
+      group: "{{ system_user__group }}"
+      shell: "/bin/false"
+      createhome: false

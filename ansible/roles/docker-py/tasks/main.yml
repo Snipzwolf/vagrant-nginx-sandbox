@@ -1,0 +1,4 @@
+---
+  - name: install docker py
+    pip: name=docker-py version=1.10.6
+    #pip: name=docker version=2.1.0 #TODO change to this once stable ansible greater than 2.3 (https://github.com/ansible/ansible/issues/20492)

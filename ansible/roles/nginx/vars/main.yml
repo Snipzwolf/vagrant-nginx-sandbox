@@ -1,0 +1,19 @@
+---
+  nginx:
+    web_root: "/srv/http"
+    user:
+      id: 500
+      name: "nginx"
+    group:
+      id: 500
+      name: "nginx"
+    docker_image:
+      name: "nginx"
+      tag: "local_build"
+      repo: "https://github.com/Snipzwolf/docker-openresty"
+      dest: "{{ docker_images_root }}/nginx/docker-openresty"
+    docker_container:
+      name: "nginx"
+    config:
+      dest: "/srv/nginx"
+      container_path: "/usr/local/openresty/nginx/conf"
