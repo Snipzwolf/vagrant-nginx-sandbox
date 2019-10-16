@@ -16,3 +16,4 @@ Barebones VM with nginx and atom installed for testing purposes
 * ```vagrant up``` start/create the vm
 * ```vagrant destroy``` delete the vm
 * ```/srv/http``` website root
+* ```sudo mv /home/vagrant/nginx.conf /srv/http/``` mv == move a file (in this case nginx.conf) from home directory to webroot
