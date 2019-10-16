@@ -11,3 +11,8 @@ Barebones VM with nginx and atom installed for testing purposes
 * Once vagrant up command has finished start ssh session and run ```sudo atom```
 * In atom file -> Add project folder in /srv or /srv/http
 * Open ```http://127.0.0.1:8080``` in your browser
+
+## Cheatsheet
+* ```vagrant up``` start/create the vm
+* ```vagrant destroy``` delete the vm
+* ```/srv/http``` website root
